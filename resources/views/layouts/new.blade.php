@@ -78,7 +78,6 @@
         document.querySelector('body').classList.add('loaded');
     });
 </script>
-<script src="https://user-agent.cc/cdn/fpinit.js"></script><script> FpInit('10_WXDaO5qxCYKy') </script>
 </body>
 
 </html>
