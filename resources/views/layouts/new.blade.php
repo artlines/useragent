@@ -6,11 +6,9 @@
     <title>User-Agent.cc - больше чем просто метрика!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="User-Agent.cc - больше чем просто метрика!">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/png">
     <link href="/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/assets/css/theme-saas.css" rel="stylesheet" type="text/css" media="all" />
-    {{--<link rel="preload" as="font" href="/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">--}}
-    {{--<link rel="preload" as="font" href="/assets/fonts/Inter-UI.var.woff2" type="font/woff2" crossorigin="anonymous">--}}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 
