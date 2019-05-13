@@ -20,7 +20,7 @@ class TelegramController extends Controller
             $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
             $text = $result["message"]["text"]; //Текст сообщения
             $first_name = $result['message']['chat']['first_name'];
-            $last_name = $result['message']['chat']['last_name'];
+            $last_name = $result['message']['chat']['last_name'] ?? '';
             $username = $result["message"]["from"]["username"];
 
             $user = Tguser::where('chat_id', $chat_id)->first();
