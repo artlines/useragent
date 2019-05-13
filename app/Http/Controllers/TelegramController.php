@@ -41,7 +41,7 @@ class TelegramController extends Controller
 
                     $code = Str::random(7);
                     $user->first_name = $first_name;
-                    $user->username = $username;
+                    $user->user_name = $username;
                     $user->last_name = $last_name;
                     $user->code = $code;
                     $user->save();
