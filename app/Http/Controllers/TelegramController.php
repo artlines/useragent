@@ -44,12 +44,12 @@ class TelegramController extends Controller
                     $user->save();
                     $reply = "Ваш код для входа " . $code;
                     if (!$user->phone) {
-                        $inline_keyboard = [[array('request_contact' => true)]];
-                        $keyboard = array("inline_keyboard" => $inline_keyboard);
-                        $replyMarkup = json_encode($keyboard);
-                        Log::debug($replyMarkup);
+//                        $inline_keyboard = [[array('request_contact' => true)]];
+//                        $keyboard = array("inline_keyboard" => $inline_keyboard);
+//                        $replyMarkup = json_encode($keyboard);
+//                        Log::debug($replyMarkup);
                         $sm['text'] = $reply;
-                        $sm['reply_markup'] = $replyMarkup;
+//                        $sm['reply_markup'] = $replyMarkup;
                         $sm['chat_id'] = $chat_id;
                         Telegram::sendMessage($sm);
                     }
