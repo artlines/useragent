@@ -18,11 +18,11 @@ class TelegramController extends Controller
         Log::debug($result);
         if (isset($result["message"])) {
             $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
-            $text = $result["message"]["text"]; //Текст сообщения
-            $first_name = $result['message']['chat']['first_name'];
+            $text = $result["message"]["text"] ?? '';
+            $first_name = $result['message']['chat']['first_name'] ?? '';
             $last_name = $result['message']['chat']['last_name'] ?? '';
-            $username = $result["message"]["from"]["username"];
-
+            $username = $result["message"]["chat"]["username"] ?? '';
+            Log::debug($text);
             $user = Tguser::where('chat_id', $chat_id)->first();
             if (!$user) {
                 $user = Tguser::create([
@@ -37,7 +37,7 @@ class TelegramController extends Controller
             }
             $reply = null;
             if ($text) {
-                if (strpos($text, '/start') !== false) {
+                if (mb_stripos($text, '/start') !== false) {
 
                     $code = Str::random(7);
                     $user->code = $code;
@@ -47,6 +47,7 @@ class TelegramController extends Controller
                         $inline_keyboard = [[array('request_contact' => true)]];
                         $keyboard = array("inline_keyboard" => $inline_keyboard);
                         $replyMarkup = json_encode($keyboard);
+                        Log::debug($replyMarkup);
                         //$reply .= $replyMarkup;
                         //$sm['']=$reply_markup;
                         //$sm=['chat_id'] => $chat_id;
