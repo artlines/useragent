@@ -48,10 +48,10 @@ class TelegramController extends Controller
                         $keyboard = array("inline_keyboard" => $inline_keyboard);
                         $replyMarkup = json_encode($keyboard);
                         Log::debug($replyMarkup);
-                        //$reply .= $replyMarkup;
-                        //$sm['']=$reply_markup;
-                        //$sm=['chat_id'] => $chat_id;
-                        //Telegram::sendMessage($sm);
+                        $sm['text'] = $reply;
+                        $sm['reply_markup'] = $replyMarkup;
+                        $sm['chat_id'] = $chat_id;
+                        Telegram::sendMessage($sm);
                     }
                 }
 
@@ -71,7 +71,7 @@ class TelegramController extends Controller
                             $sm['reply_markup']=$reply_markup;
                         }
                         */
-                Telegram::sendMessage($sm);
+//                Telegram::sendMessage($sm);
 
             }
             Log::debug($result);
