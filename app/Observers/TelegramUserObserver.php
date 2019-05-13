@@ -34,12 +34,7 @@ class TelegramUserObserver
      */
     public function updated(Tguser $telegramUser)
     {
-        $sm = [
-            'chat_id' => self::ADMIN_CHAT_ID,
-            'text' => "Пользователь обновил данные на: \n" . $telegramUser->toJson(JSON_PRETTY_PRINT),
-        ];
-
-        Telegram::sendMessage($sm);
+        //
     }
 
     /**
