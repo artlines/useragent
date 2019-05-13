@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Telegram;
 use Illuminate\Support\Facades\Log;
-use App\TelegramUser;
+use App\Tguser;
 use Illuminate\Support\Str;
 use App\User;
 
@@ -23,9 +23,9 @@ class TelegramController extends Controller
             $last_name = $result['message']['chat']['last_name'];
             $username = $result["message"]["from"]["username"];
 
-            $user = TelegramUser::where('chat_id', $chat_id)->first();
+            $user = Tguser::where('chat_id', $chat_id)->first();
             if (!$user) {
-                $user = TelegramUser::create([
+                $user = Tguser::create([
                     'chat_id' => $chat_id,
                     'first_name' => $first_name,
                     'last_name' => $last_name,
