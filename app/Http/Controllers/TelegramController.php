@@ -17,12 +17,12 @@ class TelegramController extends Controller
         $result = Telegram::getWebhookUpdates();
         Log::debug($result);
         if (isset($result["message"])) {
-            $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
+            $chat_id = $result["message"]["chat"]["id"];
             $text = $result["message"]["text"] ?? '';
             $first_name = $result['message']['chat']['first_name'] ?? '';
             $last_name = $result['message']['chat']['last_name'] ?? '';
             $username = $result["message"]["chat"]["username"] ?? '';
-            Log::debug($text);
+
             $user = Tguser::where('chat_id', $chat_id)->first();
             if (!$user) {
                 $user = Tguser::create([
@@ -31,50 +31,27 @@ class TelegramController extends Controller
                     'last_name' => $last_name,
                     'user_name' => $username,
                 ]);
-                $au = User::create([
+                User::create([
                     'name' => $chat_id,
                 ]);
             }
-            $reply = null;
+
             if ($text) {
                 if (mb_stripos($text, '/start') !== false) {
 
                     $code = Str::random(7);
+                    $user->first_name = $first_name;
+                    $user->username = $username;
+                    $user->last_name = $last_name;
                     $user->code = $code;
                     $user->save();
+
                     $reply = "Ваш код для входа " . $code;
-                    if (!$user->phone) {
-//                        $inline_keyboard = [[array('request_contact' => true)]];
-//                        $keyboard = array("inline_keyboard" => $inline_keyboard);
-//                        $replyMarkup = json_encode($keyboard);
-//                        Log::debug($replyMarkup);
-                        $sm['text'] = $reply;
-//                        $sm['reply_markup'] = $replyMarkup;
-                        $sm['chat_id'] = $chat_id;
-                        Telegram::sendMessage($sm);
-                    }
+                    $sm['text'] = $reply;
+                    $sm['chat_id'] = $chat_id;
+                    Telegram::sendMessage($sm);
                 }
-
-                $sm = ['chat_id' => $chat_id, 'text' => $reply];
-                if (isset($replyMarkup)) {
-                    $sm['reply_markup'] = $replyMarkup;
-                }
-                /*
-                        if(array_key_exists('inline_keyboard',$ans)) {
-                            $keyboard=$ans['inline_keyboard'];
-                            $replyMarkup = json_encode($keyboard);
-                            $sm['reply_markup'] = $replyMarkup;
-                        }
-                        else if(array_key_exists('keyboard',$ans)){
-                            $keyboard=$ans['keyboard'];
-                            $reply_markup = $telegram->replyKeyboardMarkup([ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ]);
-                            $sm['reply_markup']=$reply_markup;
-                        }
-                        */
-//                Telegram::sendMessage($sm);
-
             }
-            Log::debug($result);
         }
     }
 }
