@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TelegramUser extends Model
+class Tguser extends Model
 {
     protected $fillable = [
         'chat_id',

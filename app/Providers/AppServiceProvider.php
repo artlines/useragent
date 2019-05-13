@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Observers\TelegramUserObserver;
-use App\TelegramUser;
+use App\Tguser;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        TelegramUser::observe(TelegramUserObserver::class);
+        Tguser::observe(TelegramUserObserver::class);
     }
 }
