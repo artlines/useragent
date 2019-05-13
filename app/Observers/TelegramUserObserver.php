@@ -8,7 +8,7 @@ use App\Tguser;
 class TelegramUserObserver
 {
 
-    private const ADMIN_CHAT_ID = '2550885';
+    private const ADMIN_CHAT_ID = '2550885'; //Rushan chat bot id
 
     /**
      * Handle the telegram user "created" event.
@@ -20,7 +20,7 @@ class TelegramUserObserver
     {
         $sm = [
             'chat_id' => self::ADMIN_CHAT_ID,
-            'text' => "Регистрация нового пользователя: \n" . $telegramUser->toJson(JSON_PRETTY_PRINT),
+            'text' => "Регистрация нового пользователя: \n" . implode("\n", $telegramUser->toArray()),
         ];
 
         Telegram::sendMessage($sm);
