@@ -29,6 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $status = [];
         $sites = Auth::user()->sites;
         foreach($sites as $site){
             $client = new \GuzzleHttp\Client();
