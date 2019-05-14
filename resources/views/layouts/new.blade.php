@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="favicon.png" type="image/png">
     <link href="/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/assets/css/theme-saas.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/assets/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 
