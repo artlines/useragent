@@ -106,7 +106,7 @@ class TelegramBotController extends Controller
                                 else
                                 {
                                     $user = User::where([
-                                        'name' => $userId
+                                        'name' => $chatId
                                     ])->first();
 
                                     $rand_code = Str::random(12);
