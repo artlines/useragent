@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use Telegram;
-use App\Tguser;
+use App\TelegramUser;
 
 class TelegramUserObserver
 {
@@ -13,10 +13,10 @@ class TelegramUserObserver
     /**
      * Handle the telegram user "created" event.
      *
-     * @param  \App\Tguser $telegramUser
+     * @param  \App\TelegramUser $telegramUser
      * @return void
      */
-    public function created(Tguser $telegramUser)
+    public function created(TelegramUser $telegramUser)
     {
         $sm = [
             'chat_id' => self::ADMIN_CHAT_ID,
@@ -29,10 +29,10 @@ class TelegramUserObserver
     /**
      * Handle the telegram user "updated" event.
      *
-     * @param  \App\Tguser $telegramUser
+     * @param  \App\TelegramUser $telegramUser
      * @return void
      */
-    public function updated(Tguser $telegramUser)
+    public function updated(TelegramUser $telegramUser)
     {
         //
     }
@@ -40,10 +40,10 @@ class TelegramUserObserver
     /**
      * Handle the telegram user "deleted" event.
      *
-     * @param  \App\Tguser $telegramUser
+     * @param  \App\TelegramUser $telegramUser
      * @return void
      */
-    public function deleted(Tguser $telegramUser)
+    public function deleted(TelegramUser $telegramUser)
     {
         //
     }
@@ -51,10 +51,10 @@ class TelegramUserObserver
     /**
      * Handle the telegram user "restored" event.
      *
-     * @param  \App\Tguser $telegramUser
+     * @param  \App\TelegramUser $telegramUser
      * @return void
      */
-    public function restored(Tguser $telegramUser)
+    public function restored(TelegramUser $telegramUser)
     {
         //
     }
@@ -62,10 +62,10 @@ class TelegramUserObserver
     /**
      * Handle the telegram user "force deleted" event.
      *
-     * @param  \App\Tguser $telegramUser
+     * @param  \App\TelegramUser $telegramUser
      * @return void
      */
-    public function forceDeleted(Tguser $telegramUser)
+    public function forceDeleted(TelegramUser $telegramUser)
     {
         //
     }

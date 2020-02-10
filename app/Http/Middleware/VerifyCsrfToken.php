@@ -18,7 +18,5 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = [
-        '/telegram/webhook', '/getdata',
-    ];
+    protected $except = [];
 }

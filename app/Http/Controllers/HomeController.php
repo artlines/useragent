@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Client;
-use Illuminate\Http\Request;
+use App\UserClient;
 use App\Site;
+use App\Action;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use GuzzleHttp\Exception\RequestException;
-use App\Action;
+use Illuminate\Support\Facades\Log;
+use Validator;
+use TrueBV\Punycode;
 
 class HomeController extends Controller
 {
@@ -32,9 +36,11 @@ class HomeController extends Controller
         $status = [];
         $sites = Auth::user()->sites;
         foreach($sites as $site){
-            $client = new \GuzzleHttp\Client();
+            $client = new \GuzzleHttp\Client(['verify' => false]);
             try {
-                $response = $client->get($site->url);
+                $punycode   = new Punycode();
+                $parsed_url = parse_url( $site->url );
+                $response = $client->get( $parsed_url['scheme']."://".$punycode->encode( $parsed_url['host'] ) );
                 $code = $response->getStatusCode();
                 if ($code != 200) {
                     $status[$site->id] = 'Ошибка';
@@ -62,18 +68,38 @@ class HomeController extends Controller
 
     public function saveSite(Request $request)
     {
-        $site = Site::create([
-            'user_id' => Auth::user()->id,
-            'url' => $request->url,
-            'code' => Str::random(12),
-        ]);
-        return redirect('/home');
+        // unique + lower
+        $punycode = new Punycode();
+        if( $request->has('url') ){
+            $url = $request->only('url')['url'];
+            $validator = Validator::make(['url' => $url],[
+                'url' => 'required|string|url'
+            ]);
+            if( !$validator->fails() ){
+                $parsed_url = parse_url($url);
+                if( isset($parsed_url['scheme']) && isset($parsed_url['host']) ){
+                    $parsed_url['host'] = $punycode->decode( $parsed_url['host'] );
+                    $url  = $parsed_url['scheme']."://".$parsed_url['host'];
+					if( isset($parsed_url['path']) ){
+						$url .= $parsed_url['path'];
+					}
+                    $site = new Site();
+                    $site->user_id = Auth::user()->id;
+                    $site->url     = $url;
+                    $site->code    = Str::random(12);
+                    $site->save();
+                }
+            }
+        }
+        return redirect()->back();
     }
 
     public function deleteSite($id)
     {
         $site = Site::findOrFail($id);
-        $site->delete();
+        if( $site->user_id === Auth::user()->id ){
+            $site->delete();
+        }
         return back();
     }
 
@@ -83,20 +109,31 @@ class HomeController extends Controller
         if($site->user_id != Auth::user()->id){
             return redirect('/home');
         }
-        $actions = Action::where('site_id', $id)->orderBy('created_at', 'desc')->get();
-        return view('site.actions',['actions' => $actions, 'site'=>$site]);
+        $actions = Action::select('actions.*')->withLocalClientId()->where( 'site_id', $id )->orderBy('created_at', 'desc')->get();
+        return view('site.actions', ['actions' => $actions, 'site'=>$site]);
     }
 
     public function client($id)
     {
-        $client = Client::findOrFail($id);
+        $client      = Client::findOrFail($id);
+        $user_client = UserClient::where( [
+            'local_client_id' => $id,
+            'user_id'         => Auth::user()->id
+        ] )->first();
+
+
+        if( !$user_client ){
+            abort(404);
+        }
         $sites = Auth::user()->sites;
-        $ids = [];
+        $ids   = [];
+        $count = [];
         foreach($sites as $site){
-            $ids[] =$site->id;
+            $ids[] = $site->id;
             $count[$site->id] =0;
         }
-        $actions = $client->actions()->whereIn('site_id', $ids)->get();
+        
+        $actions = $user_client->actions()->whereIn( 'site_id', $ids )->orderBy('created_at', 'desc')->get();
         foreach($actions as $action){
             $count[$action->site_id]++;
         }
