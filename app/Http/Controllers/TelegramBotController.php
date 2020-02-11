@@ -114,7 +114,7 @@ class TelegramBotController extends Controller
                                     {
                                         $site = new Site();
                                         $site->user_id = $user->id;
-                                        $site->url = $host;
+                                        $site->url = $parsed_url['host'];
                                         $site->code = $rand_code;
                                         $site->save();
 
