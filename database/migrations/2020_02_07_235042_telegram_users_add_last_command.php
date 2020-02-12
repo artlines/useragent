@@ -14,7 +14,7 @@ class TelegramUsersAddLastCommand extends Migration
     public function up()
     {
         Schema::table('telegram_users', function (Blueprint $table) {
-            $table->string('last_command'   )->default('')->after('code');
+            $table->string('last_command')->default('')->after('code');
         });
     }
 
@@ -26,7 +26,7 @@ class TelegramUsersAddLastCommand extends Migration
     public function down()
     {
         Schema::table('telegram_users', function (Blueprint $table) {
-            $table->dropColumn('last_command'   );
+            $table->dropColumn('last_command');
         });
     }
 }

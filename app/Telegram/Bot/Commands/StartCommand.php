@@ -20,11 +20,15 @@ class StartCommand extends Command
 
         $user = User::whereName($this->getChatFromUpdate()->getId())->first();
 
+        $update = $this->getChatFromUpdate();
+        $title = $update->getTitle();
+
         if (empty($user))
         {
+            $msg = "Добро пожаловать, " . (!empty($title) ? $title : $this->getFullUserNameFromChat()) . "!";
             $this->getUserFromChat();
             $this->replyWithMessage([
-                "Добро пожаловать, {$this->getFullUserNameFromChat()}!\n"
+                "text" => $msg
             ]);
         }
 

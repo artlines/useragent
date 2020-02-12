@@ -156,6 +156,9 @@ class ApiController extends Controller
             if (!($site = Site::where([ 'id' => $siteArr[0], 'code' => $siteArr[1] ])->first()))
                 return $response->setContent(['status' => 'fail', 'message' => 'Invalid site code']);
 
+            if ($site->deleted)
+                return $response->setContent(['status' => 'fail', 'message' => 'Deleted']);
+
             # Ищем клиента по фингерпринту
             $fingerprint_2      = $_request['fingerprint'];
             $fingerprint_cookie = $request->cookie('_fp');
@@ -231,7 +234,7 @@ class ApiController extends Controller
             if ($client->fingerprint !== $fingerprint_cookie)
                 $response->withCookie(cookie()->forever('_fp', $client->fingerprint));
             if ($user_client->local_client_id > 0)
-                $response->setContent(['status' => 'ok', 'id' => $user_client->local_client_id]);
+                $response->setContent(['status' => 'ok', 'id' => $user_client->local_client_id, 'wid' => $site->whatsapp_id]);
         }
         catch(Exception $e)
         {
@@ -291,6 +294,14 @@ class ApiController extends Controller
      */
     private function sendMessage($formData, $platform, $platformV, $user_ip)
     {
+        # Формируем переменную на основе всех уведомлений
+        $allNotificationDisabled = ($this->site->visits == false && $this->site->start_of_input == false &&
+            $this->site->form_submission == false && $this->site->clicks_on_phone == false &&
+            $this->site->clicks_on_whatsapp == false && $this->site->whatsapp_id == false);
+
+        if ($allNotificationDisabled)
+            return;
+
         $local_client_id = $this->user_client->local_client_id;
         $action = $this->action->action;
         $message = sprintf("Клиент %s %s %s", $local_client_id, $this->get_action_message($action), $this->site->url);
@@ -364,7 +375,9 @@ class ApiController extends Controller
             {
                 try
                 {
-                    $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $message, 'caption' => $message ]);
+                    # Если включены уведомления по визитам
+                    if ($this->site->visits)
+                        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $message, 'caption' => $message ]);
                 }
                 catch (Exception $e)
                 {
@@ -378,6 +391,14 @@ class ApiController extends Controller
         {
             try
             {
+                if ($action === 'FormFirstChange' && !$this->site->start_of_input)
+                    return;
+                if ($action === 'Submit' && !$this->site->form_submission)
+                    return;
+                if ($action === 'ClickPhoneLink' && !$this->site->clicks_on_phone)
+                    return;
+                if ($action === 'ClickWhatsAppLink' && !$this->site->clicks_on_whatsapp)
+                    return;
                 $telegram->sendMessage( [ 'chat_id' => $chat_id, 'text' => $message, 'caption' => $message] );
             }
             catch(Exception $e)

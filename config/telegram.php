@@ -32,13 +32,18 @@ return [
     |             ]
     */
     'bots'                         => [
-        'mybot' => [
-            'username'            => 'TelegramBot',
+        'uaidbot' => [
+            'username'            => 'uaidbot',
             'token'               => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [
-                //Acme\Project\Commands\MyTelegramBot\BotCommand::class
+                App\Telegram\Bot\Commands\HelpCommand::class,
+                App\Telegram\Bot\Commands\StartCommand::class,
+                App\Telegram\Bot\Commands\LoginCommand::class,
+                App\Telegram\Bot\Commands\SettingsCommand::class,
+                App\Telegram\Bot\Commands\SitesCommand::class,
+                App\Telegram\Bot\Commands\CodeCommand::class,
             ],
         ],
 
@@ -57,7 +62,7 @@ return [
     | your default bot for regular use.
     |
     */
-    'default'                      => 'mybot',
+    'default'                      => 'uaidbot',
 
     /*
     |--------------------------------------------------------------------------
@@ -116,7 +121,7 @@ return [
     |
     */
     'commands'                     => [
-        Telegram\Bot\Commands\HelpCommand::class,
+        //Telegram\Bot\Commands\HelpCommand::class,
     ],
 
     /*
@@ -198,7 +203,7 @@ return [
     */
     'shared_commands'              => [
         // 'start' => Acme\Project\Commands\StartCommand::class,
-        // 'stop' => Acme\Project\Commands\StopCommand::class,
-        // 'status' => Acme\Project\Commands\StatusCommand::class,
+         //'stop' => Acme\Project\Commands\StopCommand::class,
+         //'status' => Acme\Project\Commands\StatusCommand::class,
     ],
 ];

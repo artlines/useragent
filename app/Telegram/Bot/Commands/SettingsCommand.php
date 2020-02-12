@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Telegram\Bot\Commands;
 
 use App\Site;
@@ -7,14 +8,21 @@ use App\Telegram\Bot\Dialogs\ConfirmPhoneNumberDialog;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Keyboard\Keyboard;
 
-class SitesCommand extends Command
+class SettingsCommand extends Command
 {
+    /**
+     * @var string Command Name
+     */
+    protected $name = 'settings';
 
-    protected $name = 'sites';
+    /**
+     * @var string Command Description
+     */
+    protected $description = 'Настройки оповещений';
 
-    protected $description = "Список сайтов";
-
-
+    /**
+     * {@inheritdoc}
+     */
     public function handle()
     {
         $this->replyWithChatAction([ 'action' => Actions::TYPING ]);
@@ -30,15 +38,19 @@ class SitesCommand extends Command
             ]);
         }
 
-        $buttons = $sites->map(function (Site $site){
+        $buttons = $sites->map(function (Site $site) {
             return [Keyboard::button([
                 'text' => $site->url,
-                'callback_data' => 'sites@' . $site->id
+                'callback_data' => json_encode(array(
+                    'c' => 'st', # Command => Settings
+                    'sid' => $site->id,
+                    'uid' => $site->user_id,
+                ))
             ])];
         });
 
         $replyMarkup = Keyboard::make([
-           'inline_keyboard' => $buttons
+            'inline_keyboard' => $buttons
         ]);
 
         return $this->replyWithMessage([

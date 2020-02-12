@@ -61,8 +61,11 @@ class User extends \TCG\Voyager\Models\User
         'updated_at',
         'token_expires'
     ];
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password'
     ];
 
     /**
@@ -71,7 +74,8 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token'
     ];
 
     /**
@@ -85,6 +89,6 @@ class User extends \TCG\Voyager\Models\User
 
     public function sites()
     {
-        return $this->hasMany(Site::class);
+        return $this->hasMany(Site::class)->where([ 'deleted' => false ]);
     }
 }

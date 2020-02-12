@@ -15,6 +15,13 @@ use Log;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $code
+ * @property boolean $visits
+ * @property boolean $start_of_input
+ * @property boolean $form_submission
+ * @property boolean $clicks_on_phone
+ * @property boolean $clicks_on_whatsapp
+ * @property boolean $whatsapp_id
+ * @property boolean $deleted
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Action[] $actions
  * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Site newModelQuery()
@@ -30,8 +37,20 @@ use Log;
  */
 class Site extends Model
 {
-    protected $fillable = ['user_id','url', 'code', ];
-    protected $visible  = [
+    protected $fillable = [
+        'user_id',
+        'url',
+        'code',
+        'visits',
+        'start_of_input',
+        'form_submission',
+        'clicks_on_phone',
+        'clicks_on_whatsapp',
+        'whatsapp_id',
+        'deleted'
+    ];
+
+    protected $visible = [
         'id',
         'url',
         'code',

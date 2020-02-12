@@ -48,7 +48,8 @@ window.FpInit = function (site_key) {
                 withCredentials: true
             }
         }).done(function (data) {
-            if (apiData.action === 'Visit' && data.hasOwnProperty('status') && data.status === 'ok' && data.hasOwnProperty('id') && allWhatsAppLinks.length > 0)
+            if (apiData.action === 'Visit' && data.hasOwnProperty('status') && data.status === 'ok' && data.hasOwnProperty('id') &&
+                allWhatsAppLinks.length > 0 && data.hasOwnProperty('wid') && data.wid > 0)
             {
                 for (var i = 0; i < allWhatsAppLinks.length; i++)
                 {

@@ -63,6 +63,7 @@ class SitesController extends Controller
         if( $site->user_id !== Auth::user()->id ){
             return response(null, 403);
         }
-        $site->delete();
+        $site->deleted = true;
+        $site->save();
     }
 }
