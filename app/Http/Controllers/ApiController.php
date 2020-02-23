@@ -263,6 +263,11 @@ class ApiController extends Controller
         $action->platform   = Browser::platformFamily();
         $action->platform_v = Browser::platformVersion();
 
+        if (empty(trim($action->browser)))
+        {
+            Log::warning('Unknown user-agent: ' . Browser::userAgent() . ' visit web-site - ' . $this->_request['url']);
+        }
+
         $geo = $this->getGeo($user_ip);
         if ($geo['base'])
         {
@@ -282,6 +287,10 @@ class ApiController extends Controller
         $action->save();
 
         $this->action = $action;
+
+        if (Browser::isBot())
+            return;
+        
         $this->sendMessage($formData, $action->platform, $action->platform_v, $user_ip);
     }
 
@@ -350,7 +359,7 @@ class ApiController extends Controller
             else
             {
                 Log::error('Array to string conversion');
-                Log::error($value);
+                Log::error((is_array($value) ? json_encode($value) : $value));
             }
         }
 
