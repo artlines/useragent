@@ -41,6 +41,8 @@ return [
                 App\Telegram\Bot\Commands\HelpCommand::class,
                 App\Telegram\Bot\Commands\StartCommand::class,
                 App\Telegram\Bot\Commands\LoginCommand::class,
+                App\Telegram\Bot\Commands\PartnersCommand::class,
+                App\Telegram\Bot\Commands\ReferralCommand::class,
                 App\Telegram\Bot\Commands\SettingsCommand::class,
                 App\Telegram\Bot\Commands\SitesCommand::class,
                 App\Telegram\Bot\Commands\CodeCommand::class,

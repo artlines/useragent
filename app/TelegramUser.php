@@ -16,6 +16,8 @@ use Illuminate\Support\Str;
  * @property string|null $phone
  * @property string|null $code
  * @property string|null $last_command
+ * @property int|null $owner_id
+ * @property boolean|null $owner_has_phone
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TelegramUser newModelQuery()
@@ -40,7 +42,9 @@ class TelegramUser extends Model
         'last_name',
         'username',
         'code',
-        'last_command'
+        'last_command',
+        'owner_id',
+        'owner_has_phone'
     ];
 
 

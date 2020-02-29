@@ -234,7 +234,26 @@ class ApiController extends Controller
             if ($client->fingerprint !== $fingerprint_cookie)
                 $response->withCookie(cookie()->forever('_fp', $client->fingerprint));
             if ($user_client->local_client_id > 0)
-                $response->setContent(['status' => 'ok', 'id' => $user_client->local_client_id, 'wid' => $site->whatsapp_id]);
+            {
+                $resp_params = array(
+                    'status' => 'ok',
+                    'id' => $user_client->local_client_id,
+                    'wid' => $site->whatsapp_id,
+                    'ww' => false
+                );
+
+                if ($site->wb_widget_state && !empty($site->wb_widget_phone))
+                {
+                    $resp_params['ww'] = true;
+                    $resp_params['ww_phone'] = $site->wb_widget_phone;
+                    $resp_params['ww_text'] = $site->wb_widget_text;
+                    $resp_params['ww_d'] = $site->wb_widget_desktop_state;
+                    $resp_params['ww_m'] = $site->wb_widget_mobile_state;
+                    $resp_params['ww_s'] = $site->wb_widget_show_side;
+                }
+
+                $response->setContent($resp_params);
+            }
         }
         catch(Exception $e)
         {
@@ -290,7 +309,7 @@ class ApiController extends Controller
 
         if (Browser::isBot())
             return;
-        
+
         $this->sendMessage($formData, $action->platform, $action->platform_v, $user_ip);
     }
 

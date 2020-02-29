@@ -26,6 +26,13 @@ class LoginCommand extends Command
 
         # Создаём или получаем пользователя и обновляем его последнюю команду
         $telegramUser = $this->getTelegramUserFromChat($this->name);
+        if (empty($telegramUser->owner_id))
+        {
+            return $this->replyWithMessage([
+                "text" => "Пожалуйста, подтвердите ваш телефон!\nЗапустив команду - /start"
+            ]);
+        }
+
         $user = $this->getUserFromChat();
 
         $this->sendAuthMessage($telegramUser, $user);

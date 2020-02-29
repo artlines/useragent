@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int $id
  * @property int|null $role_id
  * @property string $name
+ * @property int|null $partner_id
  * @property string|null $email
  * @property string|null $avatar
  * @property \Illuminate\Support\Carbon|null $email_verified_at
@@ -64,6 +65,7 @@ class User extends \TCG\Voyager\Models\User
 
     protected $fillable = [
         'name',
+        'partner_id',
         'email',
         'password'
     ];

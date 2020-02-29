@@ -22,6 +22,12 @@ use Log;
  * @property boolean $clicks_on_whatsapp
  * @property boolean $whatsapp_id
  * @property boolean $deleted
+ * @property int $wb_widget_phone
+ * @property string $wb_widget_text
+ * @property boolean $wb_widget_state
+ * @property boolean $wb_widget_desktop_state
+ * @property boolean $wb_widget_mobile_state
+ * @property boolean $wb_widget_show_side
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Action[] $actions
  * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Site newModelQuery()
@@ -47,7 +53,13 @@ class Site extends Model
         'clicks_on_phone',
         'clicks_on_whatsapp',
         'whatsapp_id',
-        'deleted'
+        'deleted',
+        'wb_widget_phone',
+        'wb_widget_text',
+        'wb_widget_state',
+        'wb_widget_desktop_state',
+        'wb_widget_mobile_state',
+        'wb_widget_show_side'
     ];
 
     protected $visible = [

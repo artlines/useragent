@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class MainController extends Controller
 {
@@ -13,6 +14,10 @@ class MainController extends Controller
         if( Auth::check() ){
             return redirect( route('home') );
         }
-        return view('site.main');
+        $referralPath = '';
+        if (Cookie::has('ref'))
+            $referralPath = "&start=" . Cookie::get('ref');
+
+        return view('site.main', compact('referralPath'));
     }
 }

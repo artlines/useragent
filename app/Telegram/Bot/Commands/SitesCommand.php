@@ -20,7 +20,14 @@ class SitesCommand extends Command
         $this->replyWithChatAction([ 'action' => Actions::TYPING ]);
 
         # Создаём или получаем пользователя и обновляем его последнюю команду
-        $this->getTelegramUserFromChat($this->name);
+        $telegramUser = $this->getTelegramUserFromChat($this->name);
+        if (empty($telegramUser->owner_id))
+        {
+            return $this->replyWithMessage([
+                "text" => "Пожалуйста, подтвердите ваш телефон!\nЗапустив команду - /start"
+            ]);
+        }
+
         $sites = $this->getUserFromChat()->sites;
 
         if (!count($sites))
