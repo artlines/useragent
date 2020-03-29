@@ -30,10 +30,10 @@ class BlogComment extends Model
     public function scopeWithUser( $query ){
         return $query
             ->leftJoin('users',   'users.id',        '=', 'blog_comments.user_id')
-            ->leftJoin('tgusers', 'tgusers.chat_id', '=', 'users.name')
+            ->leftJoin('telegram_users', 'telegram_users.chat_id', '=', 'users.name')
             ->addSelect(
-                'tgusers.first_name as tgusers.first_name',
-                'tgusers.last_name  as tgusers.last_name'
+                'telegram_users.first_name as telegram_users.first_name',
+                'telegram_users.last_name  as telegram_users.last_name'
             );
     }
 }
